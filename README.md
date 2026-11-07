@@ -227,9 +227,7 @@ The project focuses on modular architecture, API development, frontend integrati
 
 ---
 
-## 👩‍💻 Author
 
-**Nermine Ben Rhouma**
 
 
 ---
