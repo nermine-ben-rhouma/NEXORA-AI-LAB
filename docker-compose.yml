@@ -1,0 +1,165 @@
+
+services:
+
+  # ==========================================
+  # 1. LINGUA AI
+  # ==========================================
+
+  lingua-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nexora-lingua-backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/lingua_ai.db:/app/backend/lingua_ai.db
+    restart: unless-stopped
+
+  lingua-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: nexora-lingua-frontend
+    ports:
+      - "5174:80"
+    depends_on:
+      - lingua-backend
+    restart: unless-stopped
+
+
+  # ==========================================
+  # 2. SENTIMENT AI
+  # ==========================================
+
+  sentiment-backend:
+    build:
+      context: ./sentiment-analysis
+      dockerfile: Dockerfile
+    container_name: nexora-sentiment-backend
+    env_file:
+      - ./sentiment-analysis/.env
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./sentiment-analysis/sentiment_analysis.db:/app/sentiment_analysis.db
+    restart: unless-stopped
+
+  sentiment-frontend:
+    build:
+      context: ./sentiment-analysis/frontend
+      dockerfile: Dockerfile
+    container_name: nexora-sentiment-frontend
+    ports:
+      - "5175:80"
+    depends_on:
+      - sentiment-backend
+    restart: unless-stopped
+
+
+  # ==========================================
+  # 3. NEXORA CHAT
+  # ==========================================
+
+  chat-backend:
+    build:
+      context: ./projects/chatbot/backend
+      dockerfile: Dockerfile
+    container_name: nexora-chat-backend
+    env_file:
+      - ./projects/chatbot/backend/.env
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./projects/chatbot/backend/nexora_chat.db:/app/backend/nexora_chat.db
+    restart: unless-stopped
+
+  chat-frontend:
+    build:
+      context: ./projects/chatbot/frontend
+      dockerfile: Dockerfile
+    container_name: nexora-chat-frontend
+    ports:
+      - "5176:80"
+    depends_on:
+      - chat-backend
+    restart: unless-stopped
+
+
+  # ==========================================
+  # 4. DOCUVISION
+  # ==========================================
+
+  docuvision-backend:
+    build:
+      context: ./projects/docuvision/backend
+      dockerfile: Dockerfile
+    container_name: nexora-docuvision-backend
+    env_file:
+      - ./projects/docuvision/backend/.env
+    ports:
+      - "8003:8003"
+    volumes:
+      - ./projects/docuvision/backend/docuvision.db:/app/backend/docuvision.db
+      - ./projects/docuvision/backend/uploads:/app/backend/uploads
+    restart: unless-stopped
+
+  docuvision-frontend:
+    build:
+      context: ./projects/docuvision/frontend
+      dockerfile: Dockerfile
+    container_name: nexora-docuvision-frontend
+    ports:
+      - "5177:80"
+    depends_on:
+      - docuvision-backend
+    restart: unless-stopped
+
+
+  # ==========================================
+  # 5. WEATHERFLOW AI
+  # ==========================================
+
+  weather-backend:
+    build:
+      context: ./projects/weatherflow-ai
+      dockerfile: backend/Dockerfile
+    container_name: nexora-weather-backend
+    env_file:
+      - ./projects/weatherflow-ai/backend/.env
+    ports:
+      - "8004:8004"
+    restart: unless-stopped
+
+  weather-frontend:
+    build:
+      context: ./projects/weatherflow-ai/frontend
+      dockerfile: Dockerfile
+    container_name: nexora-weather-frontend
+    ports:
+      - "5178:80"
+    depends_on:
+      - weather-backend
+    restart: unless-stopped
+
+
+  # ==========================================
+  # 6. NEXORA AI LAB PORTAL
+  # ==========================================
+
+  nexora-portal:
+    build:
+      context: ./nexora-portal
+      dockerfile: Dockerfile
+    container_name: nexora-portal
+    ports:
+      - "5180:80"
+    depends_on:
+      - lingua-frontend
+      - sentiment-frontend
+      - chat-frontend
+      - docuvision-frontend
+      - weather-frontend
+    restart: unless-stopped

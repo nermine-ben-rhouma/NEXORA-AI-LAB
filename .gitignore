@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Environment variables
+.env
+**/.env
+
+# IDE
+.vscode/
+
+# Test
+.pytest_cache/
+.coverage
+
+# Frontend
+node_modules/
+dist/
+# SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.sqlite-wal
+*.sqlite-shm
+
+# Uploaded documents
+**/uploads/
+
+# Environment secrets
+.env.*
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Frontend build files
+**/node_modules/
+**/dist/
+**/build/
+**/.vite/
+
+# Python cache and environments
+**/__pycache__/
+**/.venv/
+**/venv/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# IDE and operating system
+.idea/
+.DS_Store
+Thumbs.db
+
+# Coverage
+coverage/
+.pytest_cache/
+.coverage

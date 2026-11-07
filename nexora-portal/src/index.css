@@ -1,0 +1,16 @@
+
+@import "./App.css";
+
+::selection {
+  background: #2563eb;
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 10px;
+}
